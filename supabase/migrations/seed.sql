@@ -1,0 +1,273 @@
+-- StudyVibe: Seed Data
+-- Run AFTER all schema migrations (001-004).
+-- Contains: 10 tracks, 6 backgrounds, 6 ambient sounds, 5 system presets.
+--
+-- NOTE: All filenames point to the studyvibe-assets Storage bucket.
+-- Upload actual files to match these paths, or the app will show
+-- fallback UI (error handling built in Task 9).
+--
+-- This script is idempotent (uses ON CONFLICT DO NOTHING).
+
+-- ============================================
+-- 1. TRACKS  (10 music tracks)
+-- ============================================
+-- Genres: 2 classical piano, 2 lofi, 2 ambient, 2 nature instrumental, 1 jazz, 1 electronic
+
+INSERT INTO tracks (id, title, filename, duration_seconds, tags, energy, instruments, mood, bpm_estimate, hz_base, best_for, genre)
+VALUES
+  -- Classical Piano
+  ('a1000000-0000-0000-0000-000000000001', 'Moonlit Sonata Study',     'tracks/moonlit-sonata-study.mp3',     240, ARRAY['classical','piano','calm'],        0.2, ARRAY['piano'],               ARRAY['serene','contemplative'],      72,  440, ARRAY['reading','deep_work'],           'classical'),
+  ('a1000000-0000-0000-0000-000000000002', 'Gentle Prelude in C',      'tracks/gentle-prelude-c.mp3',         300, ARRAY['classical','piano','soft'],         0.15, ARRAY['piano'],              ARRAY['peaceful','dreamy'],           60,  432, ARRAY['meditation','reading'],          'classical'),
+
+  -- Lofi
+  ('a1000000-0000-0000-0000-000000000003', 'Rainy Afternoon Beats',    'tracks/rainy-afternoon-beats.mp3',    195, ARRAY['lofi','chill','beats'],             0.4, ARRAY['synth','drums','keys'], ARRAY['relaxed','nostalgic'],          85,  NULL, ARRAY['studying','coding'],             'lofi'),
+  ('a1000000-0000-0000-0000-000000000004', 'Late Night Code Session',  'tracks/late-night-code-session.mp3',  210, ARRAY['lofi','hiphop','chill'],            0.45, ARRAY['synth','bass','drums'], ARRAY['focused','mellow'],            90,  NULL, ARRAY['coding','deep_work'],            'lofi'),
+
+  -- Ambient
+  ('a1000000-0000-0000-0000-000000000005', 'Deep Space Drift',         'tracks/deep-space-drift.mp3',         360, ARRAY['ambient','space','ethereal'],       0.1, ARRAY['synth','pad'],          ARRAY['vast','dreamy','immersive'],    NULL, 432, ARRAY['meditation','sleep'],            'ambient'),
+  ('a1000000-0000-0000-0000-000000000006', 'Forest Whisper Ambience',  'tracks/forest-whisper-ambience.mp3',  420, ARRAY['ambient','nature','organic'],       0.15, ARRAY['field_recording','pad'], ARRAY['natural','grounding'],         NULL, 440, ARRAY['relaxation','yoga'],             'ambient'),
+
+  -- Nature Instrumental
+  ('a1000000-0000-0000-0000-000000000007', 'Mountain Stream Guitar',   'tracks/mountain-stream-guitar.mp3',   270, ARRAY['acoustic','nature','guitar'],       0.3, ARRAY['guitar','nature_sounds'], ARRAY['warm','uplifting'],            100, NULL, ARRAY['morning_routine','creative'],    'acoustic'),
+  ('a1000000-0000-0000-0000-000000000008', 'Sunrise Flute Meditation', 'tracks/sunrise-flute-meditation.mp3', 330, ARRAY['world','flute','meditative'],       0.2, ARRAY['flute','nature_sounds'],  ARRAY['spiritual','calm'],            NULL, 528, ARRAY['meditation','morning_routine'],  'world'),
+
+  -- Jazz
+  ('a1000000-0000-0000-0000-000000000009', 'Café Jazz Trio',           'tracks/cafe-jazz-trio.mp3',           285, ARRAY['jazz','cafe','smooth'],             0.5, ARRAY['piano','bass','drums'],  ARRAY['cozy','sophisticated'],        120, NULL, ARRAY['creative','casual_work'],        'jazz'),
+
+  -- Electronic
+  ('a1000000-0000-0000-0000-000000000010', 'Focus Frequency Alpha',    'tracks/focus-frequency-alpha.mp3',    480, ARRAY['electronic','binaural','focus'],    0.35, ARRAY['synth','binaural'],     ARRAY['focused','energized'],         110, 440, ARRAY['deep_work','coding','studying'], 'electronic')
+
+ON CONFLICT (id) DO NOTHING;
+
+
+-- ============================================
+-- 2. BACKGROUNDS  (6 visual backgrounds)
+-- ============================================
+
+INSERT INTO backgrounds (id, title, filename, style, scene_type, time_of_day, mood, color_palette, compatible_animations, width, height)
+VALUES
+  ('b2000000-0000-0000-0000-000000000001', 'Cozy Room at Night',   'backgrounds/cozy-room-night.jpg',    'illustration', 'interior', 'night',    ARRAY['warm','intimate','cozy'],      ARRAY['#1a0a2e','#3d1c56','#f4a460','#ffd700'], ARRAY['fireflies','light_flicker','floating_particles'],         1920, 1080),
+  ('b2000000-0000-0000-0000-000000000002', 'Mountain Cabin Dawn',  'backgrounds/mountain-cabin-dawn.jpg','illustration', 'exterior', 'dawn',     ARRAY['serene','majestic','fresh'],    ARRAY['#2c3e50','#e67e22','#ecf0f1','#87ceeb'], ARRAY['floating_particles','clouds_drift','leaves_falling','fireflies'], 1920, 1080),
+  ('b2000000-0000-0000-0000-000000000003', 'Nebula Deep Space',    'backgrounds/nebula-deep-space.jpg',  'digital_art',  'space',    NULL,       ARRAY['vast','mysterious','awe'],      ARRAY['#0b0033','#1a0066','#6600cc','#cc00ff'], ARRAY['shooting_stars','floating_particles','aurora'],           1920, 1080),
+  ('b2000000-0000-0000-0000-000000000004', 'Japanese Garden',      'backgrounds/japanese-garden.jpg',     'illustration', 'exterior', 'morning',  ARRAY['peaceful','balanced','zen'],    ARRAY['#2d572c','#8fbc8f','#f0e68c','#deb887'], ARRAY['floating_particles','leaves_falling','fireflies'],        1920, 1080),
+  ('b2000000-0000-0000-0000-000000000005', 'City Rooftop Sunset',  'backgrounds/city-rooftop-sunset.jpg','illustration', 'urban',    'evening',  ARRAY['vibrant','energetic','urban'],  ARRAY['#ff6347','#ff8c00','#1c1c2e','#4a4a6a'], ARRAY['shooting_stars','floating_particles','clouds_drift'],     1920, 1080),
+  ('b2000000-0000-0000-0000-000000000006', 'Forest Clearing',      'backgrounds/forest-clearing.jpg',     'illustration', 'exterior', 'morning',  ARRAY['natural','refreshing','alive'], ARRAY['#228b22','#90ee90','#f5deb3','#87ceeb'], ARRAY['fireflies','floating_particles','leaves_falling'],        1920, 1080)
+
+ON CONFLICT (id) DO NOTHING;
+
+
+-- ============================================
+-- 3. AMBIENT SOUNDS  (6 layerable sounds)
+-- ============================================
+
+INSERT INTO ambient_sounds (id, name, category, filename, duration_seconds, is_loopable, tags, icon)
+VALUES
+  ('c3000000-0000-0000-0000-000000000001', 'Light Rain',     'weather',  'ambient/light-rain.mp3',     120, true,  ARRAY['rain','weather','calming'],       '🌧️'),
+  ('c3000000-0000-0000-0000-000000000002', 'Ocean Waves',    'nature',   'ambient/ocean-waves.mp3',    180, true,  ARRAY['ocean','waves','nature'],         '🌊'),
+  ('c3000000-0000-0000-0000-000000000003', 'Fireplace',      'indoor',   'ambient/fireplace.mp3',       90, true,  ARRAY['fire','crackling','warm'],        '🔥'),
+  ('c3000000-0000-0000-0000-000000000004', 'Gentle Wind',    'weather',  'ambient/gentle-wind.mp3',    150, true,  ARRAY['wind','breeze','outdoor'],        '💨'),
+  ('c3000000-0000-0000-0000-000000000005', 'Morning Birds',  'nature',   'ambient/morning-birds.mp3',  200, true,  ARRAY['birds','chirping','morning'],     '🐦'),
+  ('c3000000-0000-0000-0000-000000000006', 'Coffee Shop',    'indoor',   'ambient/coffee-shop.mp3',    240, true,  ARRAY['cafe','chatter','ambient'],       '☕')
+
+ON CONFLICT (id) DO NOTHING;
+
+
+-- ============================================
+-- 4. SYSTEM PRESETS  (5 curated configurations)
+-- ============================================
+-- Each preset config follows the SessionConfig schema (schema_version: 1).
+-- track_id, background_id, and sound_id reference the UUIDs inserted above.
+
+INSERT INTO presets (id, name, description, is_system, user_id, config, thumbnail_url)
+VALUES
+  (
+    'd4000000-0000-0000-0000-000000000001',
+    'Late Night Coding',
+    'Dark room ambience with low-energy piano and light rain. Perfect for focused coding sessions after midnight.',
+    true,
+    NULL,
+    '{
+      "schema_version": 1,
+      "music": {
+        "track_id": "a1000000-0000-0000-0000-000000000001",
+        "volume": 0.4,
+        "crossfade_seconds": 5
+      },
+      "ambient": {
+        "layers": [
+          { "sound_id": "c3000000-0000-0000-0000-000000000001", "volume": 0.3 }
+        ]
+      },
+      "visual": {
+        "background_id": "b2000000-0000-0000-0000-000000000001",
+        "animations": [
+          { "type": "fireflies", "intensity": 0.4, "speed": 0.3 }
+        ],
+        "color_temperature": "warm",
+        "brightness": 0.6,
+        "vignette_intensity": 0.3
+      },
+      "timer": {
+        "method": "pomodoro",
+        "work_minutes": 50,
+        "short_break_minutes": 10,
+        "long_break_minutes": 30,
+        "cycles_before_long_break": 4
+      }
+    }'::jsonb,
+    NULL
+  ),
+  (
+    'd4000000-0000-0000-0000-000000000002',
+    'Rainy Day Reading',
+    'Cozy room with rain and fireplace crackling. Ideal for long reading sessions on a grey afternoon.',
+    true,
+    NULL,
+    '{
+      "schema_version": 1,
+      "music": {
+        "track_id": "a1000000-0000-0000-0000-000000000002",
+        "volume": 0.3,
+        "crossfade_seconds": 8
+      },
+      "ambient": {
+        "layers": [
+          { "sound_id": "c3000000-0000-0000-0000-000000000001", "volume": 0.5 },
+          { "sound_id": "c3000000-0000-0000-0000-000000000003", "volume": 0.4 }
+        ]
+      },
+      "visual": {
+        "background_id": "b2000000-0000-0000-0000-000000000001",
+        "animations": [
+          { "type": "floating_particles", "intensity": 0.3, "speed": 0.2 }
+        ],
+        "color_temperature": "warm",
+        "brightness": 0.5,
+        "vignette_intensity": 0.4
+      },
+      "timer": {
+        "method": "free"
+      }
+    }'::jsonb,
+    NULL
+  ),
+  (
+    'd4000000-0000-0000-0000-000000000003',
+    'Calm Focus',
+    'Minimal space ambience with shooting stars. For distraction-free deep work with a sense of vastness.',
+    true,
+    NULL,
+    '{
+      "schema_version": 1,
+      "music": {
+        "track_id": "a1000000-0000-0000-0000-000000000005",
+        "volume": 0.25,
+        "crossfade_seconds": 10
+      },
+      "ambient": {
+        "layers": []
+      },
+      "visual": {
+        "background_id": "b2000000-0000-0000-0000-000000000003",
+        "animations": [
+          { "type": "shooting_stars", "intensity": 0.5, "speed": 0.4 }
+        ],
+        "color_temperature": "cool",
+        "brightness": 0.4,
+        "vignette_intensity": 0.5
+      },
+      "timer": {
+        "method": "pomodoro",
+        "work_minutes": 45,
+        "short_break_minutes": 5,
+        "long_break_minutes": 15,
+        "cycles_before_long_break": 4
+      }
+    }'::jsonb,
+    NULL
+  ),
+  (
+    'd4000000-0000-0000-0000-000000000004',
+    'Morning Energy',
+    'Fresh forest scenery with bird sounds. Start your day with natural energy and gentle guitar.',
+    true,
+    NULL,
+    '{
+      "schema_version": 1,
+      "music": {
+        "track_id": "a1000000-0000-0000-0000-000000000007",
+        "volume": 0.5,
+        "crossfade_seconds": 5
+      },
+      "ambient": {
+        "layers": [
+          { "sound_id": "c3000000-0000-0000-0000-000000000005", "volume": 0.4 }
+        ]
+      },
+      "visual": {
+        "background_id": "b2000000-0000-0000-0000-000000000006",
+        "animations": [
+          { "type": "floating_particles", "intensity": 0.6, "speed": 0.4 }
+        ],
+        "color_temperature": "neutral",
+        "brightness": 0.7,
+        "vignette_intensity": 0.2
+      },
+      "timer": {
+        "method": "pomodoro",
+        "work_minutes": 25,
+        "short_break_minutes": 5,
+        "long_break_minutes": 20,
+        "cycles_before_long_break": 4
+      }
+    }'::jsonb,
+    NULL
+  ),
+  (
+    'd4000000-0000-0000-0000-000000000005',
+    'Deep Work',
+    'Mountain cabin at dawn with lofi beats and gentle wind. Designed for extended flow states.',
+    true,
+    NULL,
+    '{
+      "schema_version": 1,
+      "music": {
+        "track_id": "a1000000-0000-0000-0000-000000000004",
+        "volume": 0.45,
+        "crossfade_seconds": 6
+      },
+      "ambient": {
+        "layers": [
+          { "sound_id": "c3000000-0000-0000-0000-000000000004", "volume": 0.25 }
+        ]
+      },
+      "visual": {
+        "background_id": "b2000000-0000-0000-0000-000000000002",
+        "animations": [
+          { "type": "fireflies", "intensity": 0.3, "speed": 0.2 }
+        ],
+        "color_temperature": "warm",
+        "brightness": 0.55,
+        "vignette_intensity": 0.35
+      },
+      "timer": {
+        "method": "pomodoro",
+        "work_minutes": 90,
+        "short_break_minutes": 15,
+        "long_break_minutes": 30,
+        "cycles_before_long_break": 2
+      }
+    }'::jsonb,
+    NULL
+  )
+
+ON CONFLICT (id) DO NOTHING;
+
+
+-- ============================================
+-- SUMMARY
+-- ============================================
+-- Tracks:         10 (classical×2, lofi×2, ambient×2, nature×2, jazz×1, electronic×1)
+-- Backgrounds:     6 (cozy room, mountain cabin, nebula, japanese garden, city rooftop, forest)
+-- Ambient Sounds:  6 (rain, ocean, fireplace, wind, birds, coffee shop)
+-- System Presets:  5 (Late Night Coding, Rainy Day Reading, Calm Focus, Morning Energy, Deep Work)
