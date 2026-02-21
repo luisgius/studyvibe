@@ -34,3 +34,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Binary assets (served from Supabase Storage in prod, local in dev)
+public/assets/
+
+# Asset staging directory for Supabase uploads
+.assets-staging/
+
+# Claude Code
+.claude/

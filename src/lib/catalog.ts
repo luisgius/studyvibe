@@ -2,12 +2,14 @@
  * Catalog query functions — typed wrappers around Supabase reads.
  *
  * All functions return empty arrays on error (never throw to UI).
- * Errors are logged to console for debugging.
+ * When supabase client is null (missing credentials), returns empty
+ * arrays immediately — the app falls back to demo data in page.tsx.
  */
 import { supabase } from "./supabase";
 import type { Track, Background, AmbientSound, Preset } from "./validation";
 
 export async function getAllTracks(): Promise<Track[]> {
+  if (!supabase) return [];
   try {
     const { data, error } = await supabase.from("tracks").select("*");
     if (error) {
@@ -22,6 +24,7 @@ export async function getAllTracks(): Promise<Track[]> {
 }
 
 export async function getAllBackgrounds(): Promise<Background[]> {
+  if (!supabase) return [];
   try {
     const { data, error } = await supabase.from("backgrounds").select("*");
     if (error) {
@@ -36,6 +39,7 @@ export async function getAllBackgrounds(): Promise<Background[]> {
 }
 
 export async function getAllAmbientSounds(): Promise<AmbientSound[]> {
+  if (!supabase) return [];
   try {
     const { data, error } = await supabase.from("ambient_sounds").select("*");
     if (error) {
@@ -50,6 +54,7 @@ export async function getAllAmbientSounds(): Promise<AmbientSound[]> {
 }
 
 export async function getSystemPresets(): Promise<Preset[]> {
+  if (!supabase) return [];
   try {
     const { data, error } = await supabase
       .from("presets")

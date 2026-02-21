@@ -31,14 +31,6 @@ vi.mock("../supabase", () => ({
   },
 }));
 
-// Also mock env so supabase.ts doesn't throw
-vi.mock("../env", () => ({
-  validatePublicEnv: () => ({
-    supabaseUrl: "https://test.supabase.co",
-    supabaseAnonKey: "test-anon-key",
-    appUrl: "http://localhost:3000",
-  }),
-}));
 
 import {
   getAllTracks,

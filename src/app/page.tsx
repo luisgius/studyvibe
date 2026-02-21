@@ -7,6 +7,8 @@ import { useVisualStore } from "@/store/useVisualStore";
 import { AudioEngine } from "@/engines/audio/AudioEngine";
 import { VisualEngine } from "@/engines/visual/VisualEngine";
 import { getAllTracks, getAllBackgrounds, getAllAmbientSounds } from "@/lib/catalog";
+import { demoTracks, demoBackgrounds, demoAmbientSounds } from "@/lib/demo-data";
+import { getAssetUrl } from "@/lib/asset-url";
 import type { Track, Background, AmbientSound } from "@/lib/validation";
 
 export default function Home() {
@@ -22,7 +24,13 @@ export default function Home() {
   // Mute state for keyboard shortcut
   const prevVolumeRef = useRef(1);
 
-  // Load catalog data
+  // Keep refs to catalog data so subscriptions can access current values
+  const tracksRef = useRef<Track[]>([]);
+  const ambientSoundsRef = useRef<AmbientSound[]>([]);
+  tracksRef.current = tracks;
+  ambientSoundsRef.current = ambientSounds;
+
+  // Load catalog data (falls back to demo data when Supabase is unreachable)
   useEffect(() => {
     async function loadCatalog() {
       try {
@@ -31,11 +39,20 @@ export default function Home() {
           getAllBackgrounds(),
           getAllAmbientSounds(),
         ]);
-        setTracks(t);
-        setBackgrounds(b);
-        setAmbientSounds(a);
+        // If Supabase returned data, use it; otherwise fall back to demo
+        const usedDemo = t.length === 0 && b.length === 0 && a.length === 0;
+        setTracks(t.length > 0 ? t : demoTracks);
+        setBackgrounds(b.length > 0 ? b : demoBackgrounds);
+        setAmbientSounds(a.length > 0 ? a : demoAmbientSounds);
+        if (usedDemo) {
+          setError("Using demo data (Supabase not connected)");
+        }
       } catch {
-        setError("Failed to load catalog data");
+        // Network error — use demo data
+        setTracks(demoTracks);
+        setBackgrounds(demoBackgrounds);
+        setAmbientSounds(demoAmbientSounds);
+        setError("Using demo data (Supabase not connected)");
       } finally {
         setLoading(false);
       }
@@ -53,17 +70,89 @@ export default function Home() {
     };
   }, []);
 
-  // Subscribe to audio store changes
+  // Subscribe to audio store changes — volume, playback, and ambient
   useEffect(() => {
+    const loadedAmbientIds = new Set<string>();
+
     const unsub = useAudioStore.subscribe((state, prev) => {
       const engine = audioEngineRef.current;
       if (!engine) return;
 
+      // Master volume
       if (state.master_volume !== prev.master_volume) {
         engine.setMasterVolume(state.master_volume);
       }
+
+      // Music volume
       if (state.music_volume !== prev.music_volume) {
         engine.setMusicVolume(state.music_volume);
+      }
+
+      // Track changed — load and play new track
+      if (state.current_track_id !== prev.current_track_id && state.current_track_id) {
+        const track = tracksRef.current.find((t) => t.id === state.current_track_id);
+        if (track) {
+          const url = getAssetUrl(track.filename);
+          engine.playTrack(url).catch((err) => {
+            console.error("Failed to play track:", err);
+            setError("Failed to load track. Check your audio files.");
+          });
+        }
+      }
+
+      // Play/pause toggled
+      if (state.is_playing !== prev.is_playing) {
+        if (state.is_playing) {
+          if (!state.current_track_id && tracksRef.current.length > 0) {
+            // Auto-select first track when play is pressed with no track selected
+            useAudioStore.getState().setCurrentTrackId(tracksRef.current[0].id);
+          } else if (state.current_track_id) {
+            const track = tracksRef.current.find((t) => t.id === state.current_track_id);
+            if (track) {
+              const url = getAssetUrl(track.filename);
+              engine.playTrack(url).catch((err) => {
+                console.error("Failed to play track:", err);
+                setError("Failed to load track. Check your audio files.");
+              });
+            }
+          }
+        } else {
+          engine.pauseTrack();
+        }
+      }
+
+      // Ambient volumes changed — add, remove, or update layers
+      if (state.ambient_volumes !== prev.ambient_volumes) {
+        const currentIds = Object.keys(state.ambient_volumes);
+        const prevIdSet = new Set(Object.keys(prev.ambient_volumes));
+
+        currentIds.forEach((id) => {
+          // New ambient layer added
+          if (!prevIdSet.has(id) && !loadedAmbientIds.has(id)) {
+            const sound = ambientSoundsRef.current.find((s) => s.id === id);
+            if (sound) {
+              const url = getAssetUrl(sound.filename);
+              loadedAmbientIds.add(id);
+              engine.addAmbientLayer(id, url).catch((err) => {
+                console.error(`Failed to load ambient sound ${sound.name}:`, err);
+                loadedAmbientIds.delete(id);
+              });
+            }
+          }
+          // Volume changed for existing layer
+          if (state.ambient_volumes[id] !== prev.ambient_volumes[id]) {
+            engine.setAmbientVolume(id, state.ambient_volumes[id]);
+          }
+        });
+
+        // Remove layers that were turned off
+        const currentIdSet = new Set(currentIds);
+        Object.keys(prev.ambient_volumes).forEach((id) => {
+          if (!currentIdSet.has(id)) {
+            engine.removeAmbientLayer(id);
+            loadedAmbientIds.delete(id);
+          }
+        });
       }
     });
     return unsub;
@@ -90,7 +179,7 @@ export default function Home() {
       if (state.current_background_id !== prev.current_background_id && state.current_background_id) {
         const bg = backgrounds.find((b) => b.id === state.current_background_id);
         if (bg) {
-          engine.setBackground(bg.filename).catch(() => {
+          engine.setBackground(getAssetUrl(bg.filename)).catch(() => {
             setError("Failed to load background");
           });
         }

@@ -25,6 +25,7 @@ vi.mock("three", () => {
       this.setAnimationLoop = mockSetAnimationLoop;
       this.setSize = mockRendererSetSize;
       this.setPixelRatio = mockRendererSetPixelRatio;
+      this.setClearColor = vi.fn();
       this.render = mockRendererRender;
       this.dispose = mockRendererDispose;
       this.domElement = { clientWidth: 800, clientHeight: 600 };

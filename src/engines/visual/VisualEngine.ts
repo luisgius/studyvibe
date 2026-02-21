@@ -53,7 +53,8 @@ export class VisualEngine {
     );
     this.camera.position.z = 5;
 
-    this.renderer = new WebGLRenderer({ canvas, antialias: true, alpha: false });
+    this.renderer = new WebGLRenderer({ canvas, antialias: true, alpha: true });
+    this.renderer.setClearColor(0x000000, 0);
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.width, this.height);
 

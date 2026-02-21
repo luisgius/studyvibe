@@ -450,9 +450,9 @@ describe("ControlPanel auto-hide", () => {
     const panel = screen.getByTestId("control-panel");
     expect(panel.className).toContain("translate-x-0");
 
-    // After 3+ seconds, panel should hide
+    // After 8+ seconds, panel should hide (INACTIVITY_TIMEOUT = 8000)
     act(() => {
-      vi.advanceTimersByTime(3500);
+      vi.advanceTimersByTime(8500);
     });
     expect(panel.className).toContain("translate-x-full");
 
