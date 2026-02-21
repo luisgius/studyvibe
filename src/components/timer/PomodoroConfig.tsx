@@ -81,7 +81,7 @@ export function PomodoroConfig() {
 
       <button
         onClick={handleApply}
-        className="w-full px-3 py-1.5 rounded bg-gray-700 hover:bg-gray-600 text-gray-200 text-sm transition-colors"
+        className="w-full px-3 py-1.5 rounded bg-white/10 hover:bg-white/15 text-gray-300 border border-white/10 text-sm transition-colors"
         data-testid="apply-config"
       >
         Apply
