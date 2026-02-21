@@ -16,26 +16,26 @@
 INSERT INTO tracks (id, title, filename, duration_seconds, tags, energy, instruments, mood, bpm_estimate, hz_base, best_for, genre)
 VALUES
   -- Classical Piano
-  ('a1000000-0000-0000-0000-000000000001', 'Moonlit Sonata Study',     'tracks/moonlit-sonata-study.mp3',     240, ARRAY['classical','piano','calm'],        0.2, ARRAY['piano'],               ARRAY['serene','contemplative'],      72,  440, ARRAY['reading','deep_work'],           'classical'),
-  ('a1000000-0000-0000-0000-000000000002', 'Gentle Prelude in C',      'tracks/gentle-prelude-c.mp3',         300, ARRAY['classical','piano','soft'],         0.15, ARRAY['piano'],              ARRAY['peaceful','dreamy'],           60,  432, ARRAY['meditation','reading'],          'classical'),
+  ('a1000000-0000-0000-0000-000000000001', 'Moonlit Sonata Study',     'tracks/moonlit-sonata-study.wav',     240, ARRAY['classical','piano','calm'],        0.2, ARRAY['piano'],               ARRAY['serene','contemplative'],      72,  440, ARRAY['reading','deep_work'],           'classical'),
+  ('a1000000-0000-0000-0000-000000000002', 'Gentle Prelude in C',      'tracks/gentle-prelude-c.wav',         300, ARRAY['classical','piano','soft'],         0.15, ARRAY['piano'],              ARRAY['peaceful','dreamy'],           60,  432, ARRAY['meditation','reading'],          'classical'),
 
   -- Lofi
-  ('a1000000-0000-0000-0000-000000000003', 'Rainy Afternoon Beats',    'tracks/rainy-afternoon-beats.mp3',    195, ARRAY['lofi','chill','beats'],             0.4, ARRAY['synth','drums','keys'], ARRAY['relaxed','nostalgic'],          85,  NULL, ARRAY['studying','coding'],             'lofi'),
-  ('a1000000-0000-0000-0000-000000000004', 'Late Night Code Session',  'tracks/late-night-code-session.mp3',  210, ARRAY['lofi','hiphop','chill'],            0.45, ARRAY['synth','bass','drums'], ARRAY['focused','mellow'],            90,  NULL, ARRAY['coding','deep_work'],            'lofi'),
+  ('a1000000-0000-0000-0000-000000000003', 'Rainy Afternoon Beats',    'tracks/rainy-afternoon-beats.wav',    195, ARRAY['lofi','chill','beats'],             0.4, ARRAY['synth','drums','keys'], ARRAY['relaxed','nostalgic'],          85,  NULL, ARRAY['studying','coding'],             'lofi'),
+  ('a1000000-0000-0000-0000-000000000004', 'Late Night Code Session',  'tracks/late-night-code-session.wav',  210, ARRAY['lofi','hiphop','chill'],            0.45, ARRAY['synth','bass','drums'], ARRAY['focused','mellow'],            90,  NULL, ARRAY['coding','deep_work'],            'lofi'),
 
   -- Ambient
-  ('a1000000-0000-0000-0000-000000000005', 'Deep Space Drift',         'tracks/deep-space-drift.mp3',         360, ARRAY['ambient','space','ethereal'],       0.1, ARRAY['synth','pad'],          ARRAY['vast','dreamy','immersive'],    NULL, 432, ARRAY['meditation','sleep'],            'ambient'),
-  ('a1000000-0000-0000-0000-000000000006', 'Forest Whisper Ambience',  'tracks/forest-whisper-ambience.mp3',  420, ARRAY['ambient','nature','organic'],       0.15, ARRAY['field_recording','pad'], ARRAY['natural','grounding'],         NULL, 440, ARRAY['relaxation','yoga'],             'ambient'),
+  ('a1000000-0000-0000-0000-000000000005', 'Deep Space Drift',         'tracks/deep-space-drift.wav',         360, ARRAY['ambient','space','ethereal'],       0.1, ARRAY['synth','pad'],          ARRAY['vast','dreamy','immersive'],    NULL, 432, ARRAY['meditation','sleep'],            'ambient'),
+  ('a1000000-0000-0000-0000-000000000006', 'Forest Whisper Ambience',  'tracks/forest-whisper-ambience.wav',  420, ARRAY['ambient','nature','organic'],       0.15, ARRAY['field_recording','pad'], ARRAY['natural','grounding'],         NULL, 440, ARRAY['relaxation','yoga'],             'ambient'),
 
   -- Nature Instrumental
-  ('a1000000-0000-0000-0000-000000000007', 'Mountain Stream Guitar',   'tracks/mountain-stream-guitar.mp3',   270, ARRAY['acoustic','nature','guitar'],       0.3, ARRAY['guitar','nature_sounds'], ARRAY['warm','uplifting'],            100, NULL, ARRAY['morning_routine','creative'],    'acoustic'),
-  ('a1000000-0000-0000-0000-000000000008', 'Sunrise Flute Meditation', 'tracks/sunrise-flute-meditation.mp3', 330, ARRAY['world','flute','meditative'],       0.2, ARRAY['flute','nature_sounds'],  ARRAY['spiritual','calm'],            NULL, 528, ARRAY['meditation','morning_routine'],  'world'),
+  ('a1000000-0000-0000-0000-000000000007', 'Mountain Stream Guitar',   'tracks/mountain-stream-guitar.wav',   270, ARRAY['acoustic','nature','guitar'],       0.3, ARRAY['guitar','nature_sounds'], ARRAY['warm','uplifting'],            100, NULL, ARRAY['morning_routine','creative'],    'acoustic'),
+  ('a1000000-0000-0000-0000-000000000008', 'Sunrise Flute Meditation', 'tracks/sunrise-flute-meditation.wav', 330, ARRAY['world','flute','meditative'],       0.2, ARRAY['flute','nature_sounds'],  ARRAY['spiritual','calm'],            NULL, 528, ARRAY['meditation','morning_routine'],  'world'),
 
   -- Jazz
-  ('a1000000-0000-0000-0000-000000000009', 'Café Jazz Trio',           'tracks/cafe-jazz-trio.mp3',           285, ARRAY['jazz','cafe','smooth'],             0.5, ARRAY['piano','bass','drums'],  ARRAY['cozy','sophisticated'],        120, NULL, ARRAY['creative','casual_work'],        'jazz'),
+  ('a1000000-0000-0000-0000-000000000009', 'Café Jazz Trio',           'tracks/cafe-jazz-trio.wav',           285, ARRAY['jazz','cafe','smooth'],             0.5, ARRAY['piano','bass','drums'],  ARRAY['cozy','sophisticated'],        120, NULL, ARRAY['creative','casual_work'],        'jazz'),
 
   -- Electronic
-  ('a1000000-0000-0000-0000-000000000010', 'Focus Frequency Alpha',    'tracks/focus-frequency-alpha.mp3',    480, ARRAY['electronic','binaural','focus'],    0.35, ARRAY['synth','binaural'],     ARRAY['focused','energized'],         110, 440, ARRAY['deep_work','coding','studying'], 'electronic')
+  ('a1000000-0000-0000-0000-000000000010', 'Focus Frequency Alpha',    'tracks/focus-frequency-alpha.wav',    480, ARRAY['electronic','binaural','focus'],    0.35, ARRAY['synth','binaural'],     ARRAY['focused','energized'],         110, 440, ARRAY['deep_work','coding','studying'], 'electronic')
 
 ON CONFLICT (id) DO NOTHING;
 
@@ -62,12 +62,12 @@ ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO ambient_sounds (id, name, category, filename, duration_seconds, is_loopable, tags, icon)
 VALUES
-  ('c3000000-0000-0000-0000-000000000001', 'Light Rain',     'weather',  'ambient/light-rain.mp3',     120, true,  ARRAY['rain','weather','calming'],       '🌧️'),
-  ('c3000000-0000-0000-0000-000000000002', 'Ocean Waves',    'nature',   'ambient/ocean-waves.mp3',    180, true,  ARRAY['ocean','waves','nature'],         '🌊'),
-  ('c3000000-0000-0000-0000-000000000003', 'Fireplace',      'indoor',   'ambient/fireplace.mp3',       90, true,  ARRAY['fire','crackling','warm'],        '🔥'),
-  ('c3000000-0000-0000-0000-000000000004', 'Gentle Wind',    'weather',  'ambient/gentle-wind.mp3',    150, true,  ARRAY['wind','breeze','outdoor'],        '💨'),
-  ('c3000000-0000-0000-0000-000000000005', 'Morning Birds',  'nature',   'ambient/morning-birds.mp3',  200, true,  ARRAY['birds','chirping','morning'],     '🐦'),
-  ('c3000000-0000-0000-0000-000000000006', 'Coffee Shop',    'indoor',   'ambient/coffee-shop.mp3',    240, true,  ARRAY['cafe','chatter','ambient'],       '☕')
+  ('c3000000-0000-0000-0000-000000000001', 'Light Rain',     'weather',  'ambient/light-rain.wav',     120, true,  ARRAY['rain','weather','calming'],       '🌧️'),
+  ('c3000000-0000-0000-0000-000000000002', 'Ocean Waves',    'nature',   'ambient/ocean-waves.wav',    180, true,  ARRAY['ocean','waves','nature'],         '🌊'),
+  ('c3000000-0000-0000-0000-000000000003', 'Fireplace',      'indoor',   'ambient/fireplace.wav',       90, true,  ARRAY['fire','crackling','warm'],        '🔥'),
+  ('c3000000-0000-0000-0000-000000000004', 'Gentle Wind',    'weather',  'ambient/gentle-wind.wav',    150, true,  ARRAY['wind','breeze','outdoor'],        '💨'),
+  ('c3000000-0000-0000-0000-000000000005', 'Morning Birds',  'nature',   'ambient/morning-birds.wav',  200, true,  ARRAY['birds','chirping','morning'],     '🐦'),
+  ('c3000000-0000-0000-0000-000000000006', 'Coffee Shop',    'indoor',   'ambient/coffee-shop.wav',    240, true,  ARRAY['cafe','chatter','ambient'],       '☕')
 
 ON CONFLICT (id) DO NOTHING;
 
